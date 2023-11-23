@@ -11,9 +11,9 @@ const f = createUploadthing();
 
 export const ourFileRouter = {
   pdfUploader: f({ pdf: { maxFileSize: "4MB" } })
-    .middleware(async ({ req }) => {
+    .middleware(({ req }) => {
       const { getUser } = getKindeServerSession();
-      const user = await getUser();
+      const user = getUser();
 
       if (!user || !user.id) throw new Error("Unauthorized");
 
