@@ -2,10 +2,18 @@ import React from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import Link from "next/link";
 import { buttonVariants } from "./ui/button";
-import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs/server";
+import {
+  LoginLink,
+  LogoutLink,
+  RegisterLink,
+  getKindeServerSession,
+} from "@kinde-oss/kinde-auth-nextjs/server";
 import { ArrowRight } from "lucide-react";
 
 export const Navbar = () => {
+  const { getUser, isAuthenticated } = getKindeServerSession();
+  const user = getUser();
+
   return (
     <nav className="sticky h-14 inset-x-0 top-0 z-30 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all">
       <MaxWidthWrapper>
@@ -24,14 +32,34 @@ export const Navbar = () => {
               >
                 Pricing
               </Link> */}
-              <LoginLink
-                className={buttonVariants({ variant: "ghost", size: "sm" })}
-              >
-                Sign In
-              </LoginLink>
-              <RegisterLink className={buttonVariants({ size: "sm" })}>
-                Get Started <ArrowRight className="ml-1.5 h-5 w-5" />
-              </RegisterLink>
+              {isAuthenticated() ? (
+                <>
+                  <p>Welcome, {user.given_name} </p>
+                  <LogoutLink
+                    className={buttonVariants({ variant: "ghost", size: "sm" })}
+                  >
+                    Log out
+                  </LogoutLink>
+                  <Link
+                    className={buttonVariants({ size: "sm" })}
+                    href={"/dashboard"}
+                    target="_blank"
+                  >
+                    Dashboard
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <LoginLink
+                    className={buttonVariants({ variant: "ghost", size: "sm" })}
+                  >
+                    Sign In
+                  </LoginLink>
+                  <RegisterLink className={buttonVariants({ size: "sm" })}>
+                    Get Started <ArrowRight className="ml-1.5 h-5 w-5" />
+                  </RegisterLink>
+                </>
+              )}
             </>
           </div>
         </div>
