@@ -12,8 +12,8 @@ import "simplebar-react/dist/simplebar.min.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Quill",
-  description: "Quill App",
+  title: "TabbyTalks",
+  description: "TabbyTalks App",
 };
 
 export default function RootLayout({
